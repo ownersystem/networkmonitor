@@ -173,5 +173,5 @@ Service worker может быть выгружен Chrome при простое
 ---
 
 <div align="center">
-<sub>Network Monitor · Telegram <a href="https://github.com/ownersystem">@sequencedev</a></sub>
+<sub>Network Monitor · Telegram <a href="https://github.com/ownersystem">@ownersystem</a></sub>
 </div>
