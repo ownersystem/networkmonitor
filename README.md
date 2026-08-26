@@ -12,7 +12,7 @@
 [![Chrome](https://img.shields.io/badge/Chrome-110%2B-E3A94A?style=for-the-badge&logo=googlechrome&logoColor=white)](#requirements)
 [![Лицензия](https://img.shields.io/badge/лицензия-Attribution--Required-E85459?style=for-the-badge)](LICENSE.md)
 
-<sub>Автор и правообладатель: Telegram <a href="https://github.com/ownersystem"><b>@ownersystem</b></a></sub>
+<sub>Автор и правообладатель: GitHub <a href="https://github.com/ownersystem"><b>@ownersystem</b></a></sub>
 
 </div>
 
@@ -168,10 +168,10 @@ Service worker может быть выгружен Chrome при простое
 
 Полный текст лицензии в [`LICENSE.md`](LICENSE.md).
 
-Коротко: копировать, форкать, изменять и распространять код можно свободно. Обязательное условие одно: в любой копии, форке или изменённой версии должно быть явно указано, что автором и правообладателем проекта является Telegram **[@ownersystem]([https://t.me/sequencedev](https://github.com/ownersystem))**. Удалять, прятать или подменять это указание нельзя, это нарушает лицензию и лишает прав на использование ПО.
+Коротко: копировать, форкать, изменять и распространять код можно свободно. Обязательное условие одно: в любой копии, форке или изменённой версии должно быть явно указано, что автором и правообладателем проекта является GitHub **[@ownersystem]((https://github.com/ownersystem))**. Удалять, прятать или подменять это указание нельзя, это нарушает лицензию и лишает прав на использование ПО.
 
 ---
 
 <div align="center">
-<sub>Network Monitor · Telegram <a href="https://github.com/ownersystem">@ownersystem</a></sub>
+<sub>Network Monitor · GitHub <a href="https://github.com/ownersystem">@ownersystem</a></sub>
 </div>
