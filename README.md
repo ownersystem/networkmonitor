@@ -1,5 +1,3 @@
-# Network Monitor
-
 <div align="center">
 
 <img src="assets/icon.png" width="96" height="96" alt="Network Monitor" />
@@ -8,21 +6,11 @@
 
 **Локальный мониторинг сетевых запросов текущей вкладки Chrome — компактный аналог DevTools Network со своим интерфейсом**
 
-<a href="#-о-проекте">
-<img src="https://img.shields.io/badge/версия-1.1.3-5B9CF6?style=for-the-badge&labelColor=5B9CF6&color=5B9CF6" alt="Версия 1.1.3" />
-</a>
-<a href="#-архитектура">
-<img src="https://img.shields.io/badge/Manifest-V3-3FC97A?style=for-the-badge&labelColor=3FC97A&color=3FC97A" alt="Manifest V3" />
-</a>
-<a href="#-архитектура">
-<img src="https://img.shields.io/badge/TypeScript-strict-3178C6?style=for-the-badge&labelColor=3178C6&color=3178C6&logo=typescript&logoColor=white" alt="TypeScript strict" />
-</a>
-<a href="#requirements">
-<img src="https://img.shields.io/badge/Chrome-110%2B-E3A94A?style=for-the-badge&labelColor=E3A94A&color=E3A94A&logo=googlechrome&logoColor=white" alt="Chrome 110+" />
-</a>
-<a href="#-лицензия">
-<img src="https://img.shields.io/badge/лицензия-Attribution--Required-E85459?style=for-the-badge&labelColor=E85459&color=E85459" alt="Лицензия Attribution-Required" />
-</a>
+[![Версия](https://img.shields.io/badge/версия-1.1.3-5B9CF6?style=for-the-badge)](#-о-проекте)
+[![Manifest](https://img.shields.io/badge/Manifest-V3-3FC97A?style=for-the-badge)](#-архитектура)
+[![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](#-архитектура)
+[![Chrome](https://img.shields.io/badge/Chrome-110%2B-E3A94A?style=for-the-badge&logo=googlechrome&logoColor=white)](#requirements)
+[![Лицензия](https://img.shields.io/badge/лицензия-Attribution--Required-E85459?style=for-the-badge)](LICENSE.md)
 
 <sub>Автор и правообладатель: GitHub <a href="https://github.com/ownersystem"><b>@ownersystem</b></a></sub>
 
@@ -136,14 +124,14 @@ npm run build
 
 ## 🏛 Архитектура
 
-```text
+```
 src/
   background/
     background.ts   — точка входа service worker, маршрутизация сообщений, badge
-    network.ts      — состояние по вкладкам, обработка событий CDP, response body
+    network.ts       — состояние по вкладкам, обработка событий CDP, response body
     debugger.ts       — низкоуровневая обёртка над chrome.debugger
     storage.ts         — персистентность настроек (chrome.storage.local)
-    security.ts        — безопасное логирование, лимиты размера тела ответа
+    security.ts         — безопасное логирование, лимиты размера тела ответа
   popup/
     popup.html/ts/css — интерфейс popup: список, фильтры, детали, экспорт
   content/
@@ -165,19 +153,15 @@ Service worker может быть выгружен Chrome при простое
 ## 🧯 Troubleshooting
 
 **Chrome показывает жёлтую полосу «расширение отлаживает эту страницу»**
-
 Стандартное поведение при использовании `chrome.debugger` API — так браузер сообщает, что к вкладке подключён отладчик. Исчезает после нажатия «Стоп».
 
 **Response body недоступен**
-
 Появляется, если тело ответа не готово на момент запроса, запрос отменён/редиректится, является streaming-ответом или произошёл до начала записи. Это ожидаемое поведение, а не ошибка.
 
 **Overlay не появляется на странице**
-
 Проверьте настройку «Показывать индикатор на странице» в popup (⚙). На `chrome://`-страницах и в Chrome Web Store content scripts не работают — это ограничение самого Chrome.
 
 **Часть интерфейса обрезана и не видна**
-
 Прокрутите нужную область колесом мыши или зажатой левой кнопкой (drag) — горизонтальный скролл работает как для отдельных рядов вкладок/кнопок, так и для всего окна popup целиком.
 
 ## ⚖️ Лицензия
