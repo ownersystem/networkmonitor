@@ -584,6 +584,18 @@ select.filters__method {
 .badge--status-pending { background: var(--bg-3); color: var(--text-3); }
 .badge--status-error { background: rgba(232, 84, 89, 0.24); color: var(--danger); }
 
+.badge--api {
+  background: var(--accent);
+  color: #0C0E13;
+  font-weight: 800;
+}
+
+.filters__api-toggle.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
 .detail-panel {
   flex: 1;
   display: flex;

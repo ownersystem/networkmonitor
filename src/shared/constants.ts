@@ -1,4 +1,4 @@
-export const EXTENSION_VERSION = "1.1.3";
+export const EXTENSION_VERSION = "1.1.4";
 export const EXTENSION_NAME = "Network Monitor";
 export const EXTENSION_AUTHOR = "Telegram @sequencedev";
 

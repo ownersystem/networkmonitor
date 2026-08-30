@@ -23,6 +23,18 @@ interface ChangelogEntry {
 
 const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "1.1.4",
+    date: "30.08.2026",
+    shortLabel: "Auto + API",
+    title: "Update 1.1.4",
+    changes: [
+      "Добавлен авто-режим: запись сети может стартовать сама при загрузке страницы, без нажатия «Начать запись» (включается в Настройках).",
+      "Запросы, содержащие «api» в любом месте URL (регистр не важен), теперь помечаются бейджем API прямо в общем списке и их можно быстро отфильтровать кнопкой API рядом с фильтрами — без перехода на отдельный экран.",
+      "Полностью удалён экспериментальный модуль обнаружения баннеров на странице: убраны связанные UI, код фонового процесса и content-script, чтобы расширение оставалось лёгким и сфокусированным на мониторинге сети.",
+      "Мелкие правки текстов интерфейса."
+    ]
+  },
+  {
     version: "1.1.3",
     date: "23.08.2026",
     shortLabel: "Redesign",
@@ -73,6 +85,7 @@ let activeDetailTab = "overview";
 let searchQuery = "";
 let methodFilter: MethodFilter = "ALL";
 let urlFilter = "";
+let apiOnly = false;
 
 const el = {
   statusDot: document.getElementById("status-dot") as HTMLSpanElement,
@@ -84,12 +97,13 @@ const el = {
   downloadMenu: document.getElementById("download-menu") as HTMLDivElement,
   btnSettings: document.getElementById("btn-settings") as HTMLButtonElement,
   settingsPanel: document.getElementById("settings-panel") as HTMLDivElement,
-  settingOverlayEnabled: document.getElementById("setting-overlay-enabled") as HTMLInputElement,
-  settingOverlayMinimal: document.getElementById("setting-overlay-minimal") as HTMLInputElement,
+  settingAutoMode: document.getElementById("setting-auto-mode") as HTMLInputElement,
+  settingOverlayEnabled: document.getElementById("setting-overlay-enabled") as HTMLInputElement,  settingOverlayMinimal: document.getElementById("setting-overlay-minimal") as HTMLInputElement,
   settingShowSecrets: document.getElementById("setting-show-secrets") as HTMLInputElement,
   searchInput: document.getElementById("search-input") as HTMLInputElement,
   methodFilterSelect: document.getElementById("method-filter") as HTMLSelectElement,
   urlFilterInput: document.getElementById("url-filter") as HTMLInputElement,
+  apiOnlyToggle: document.getElementById("api-only-toggle") as HTMLButtonElement,
   requestList: document.getElementById("request-list") as HTMLDivElement,
   emptyState: document.getElementById("empty-state") as HTMLDivElement,
   detailEmpty: document.getElementById("detail-empty") as HTMLDivElement,
@@ -106,7 +120,7 @@ const el = {
   changelogView: document.getElementById("changelog-view") as HTMLElement,
   changelogBack: document.getElementById("changelog-back") as HTMLButtonElement,
   changelogList: document.getElementById("changelog-list") as HTMLDivElement,
-  changelogDetail: document.getElementById("changelog-detail") as HTMLDivElement
+  changelogDetail: document.getElementById("changelog-detail") as HTMLDivElement,
 };
 
 function sendMessage(message: RuntimeMessage): Promise<RuntimeMessageResponse> {
@@ -174,6 +188,10 @@ function matchesSearch(request: NetworkRequestRecord, query: string): boolean {
   return false;
 }
 
+function isApiRequest(request: NetworkRequestRecord): boolean {
+  return /api/i.test(request.url);
+}
+
 function matchesUrlFilter(request: NetworkRequestRecord, filter: string): boolean {
   if (!filter) {
     return true;
@@ -189,6 +207,9 @@ function matchesUrlFilter(request: NetworkRequestRecord, filter: string): boolea
 function filteredRequests(): NetworkRequestRecord[] {
   return requests.filter((r) => {
     if (methodFilter !== "ALL" && r.method !== methodFilter) {
+      return false;
+    }
+    if (apiOnly && !isApiRequest(r)) {
       return false;
     }
     if (!matchesUrlFilter(r, urlFilter)) {
@@ -251,6 +272,12 @@ function renderList(): void {
 
     top.appendChild(methodBadge);
     top.appendChild(statusBadge);
+    if (isApiRequest(request)) {
+      const apiBadge = document.createElement("span");
+      apiBadge.className = "badge badge--api";
+      apiBadge.textContent = "API";
+      top.appendChild(apiBadge);
+    }
     top.appendChild(time);
 
     const urlLine = document.createElement("div");
@@ -747,6 +774,7 @@ async function init(): Promise<void> {
 }
 
 function applySettingsToUi(s: ExtensionSettings): void {
+  el.settingAutoMode.checked = s.autoMode;
   el.settingOverlayEnabled.checked = s.overlayEnabled;
   el.settingOverlayMinimal.checked = s.overlayMinimal;
   el.settingShowSecrets.checked = s.showSecrets;
@@ -917,6 +945,16 @@ function setupEventListeners(): void {
     }
   });
 
+  el.settingAutoMode.addEventListener("change", async () => {
+    const autoMode = el.settingAutoMode.checked;
+    await sendMessage({ type: "UPDATE_SETTINGS", settings: { autoMode } });
+    if (autoMode && currentTabId !== null) {
+      const response = await sendMessage({ type: "START_RECORDING", tabId: currentTabId });
+      if (response.ok && "state" in response) {
+        updateRecordingUi(response.state.recording, response.state.requestCount);
+      }
+    }
+  });
   el.settingOverlayEnabled.addEventListener("change", async () => {
     await sendMessage({ type: "UPDATE_SETTINGS", settings: { overlayEnabled: el.settingOverlayEnabled.checked } });
   });
@@ -943,6 +981,12 @@ function setupEventListeners(): void {
 
   el.urlFilterInput.addEventListener("input", () => {
     urlFilter = el.urlFilterInput.value;
+    renderList();
+  });
+
+  el.apiOnlyToggle.addEventListener("click", () => {
+    apiOnly = !apiOnly;
+    el.apiOnlyToggle.classList.toggle("active", apiOnly);
     renderList();
   });
 

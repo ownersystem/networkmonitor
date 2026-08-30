@@ -3,6 +3,7 @@ import {
   cleanupTab,
   getRequests,
   getSummary,
+  isRecording,
   setBroadcaster,
   startRecording,
   stopRecording
@@ -110,6 +111,36 @@ async function handleMessage(
 
 chrome.tabs.onRemoved.addListener((tabId) => {
   cleanupTab(tabId);
+});
+
+function isRecordableUrl(url: string | undefined): boolean {
+  if (!url) {
+    return false;
+  }
+  return url.startsWith("http://") || url.startsWith("https://");
+}
+
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  if (changeInfo.status !== "loading") {
+    return;
+  }
+  if (!isRecordableUrl(tab.url)) {
+    return;
+  }
+  void (async () => {
+    const settings = await loadSettings();
+    if (!settings.autoMode) {
+      return;
+    }
+    if (isRecording(tabId)) {
+      return;
+    }
+    const state = await startRecording(tabId);
+    updateBadge(tabId);
+    if (state.recording) {
+      chrome.runtime.sendMessage({ type: "RECORDING_STATE_CHANGED", tabId, recording: true, requestCount: state.requestCount }).catch(() => {});
+    }
+  })();
 });
 
 chrome.runtime.onInstalled.addListener(() => {

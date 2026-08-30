@@ -1,7 +1,7 @@
 import type { BroadcastMessage, ExtensionSettings, RuntimeMessageResponse, TabRecordingSummary } from "../shared/types";
 import { EXTENSION_NAME } from "../shared/constants";
 
-const HOST_ID = "network-monitor-overlay-host";
+const HOST_ID = "amazing-network-monitor-overlay-host";
 
 let currentState: TabRecordingSummary = {
   tabId: -1,

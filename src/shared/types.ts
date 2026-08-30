@@ -96,6 +96,7 @@ export interface ExtensionSettings {
   maxRequests: number;
   version: string;
   debuggerNoticeShown: boolean;
+  autoMode: boolean;
 }
 
 export const DEFAULT_SETTINGS: ExtensionSettings = {
@@ -105,8 +106,9 @@ export const DEFAULT_SETTINGS: ExtensionSettings = {
   urlFilter: "",
   showSecrets: false,
   maxRequests: 2000,
-  version: "1.1.3",
-  debuggerNoticeShown: false
+  version: "1.1.4",
+  debuggerNoticeShown: false,
+  autoMode: false
 };
 
 export type RuntimeMessage =

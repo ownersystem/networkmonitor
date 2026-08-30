@@ -25,7 +25,7 @@
       </span>
       <div class="app-header__title-block">
         <span class="app-header__title">Network Monitor</span>
-        <span class="app-header__version">v1.1.3</span>
+        <span class="app-header__version">v1.1.4</span>
       </div>
     </div>
     <div class="app-header__status" id="status-pill">
@@ -77,6 +77,10 @@
 
   <div id="settings-panel" class="settings-panel hidden">
     <label class="settings-row">
+      <span>Авто-режим (запись включается сама)</span>
+      <input id="setting-auto-mode" type="checkbox" />
+    </label>
+    <label class="settings-row">
       <span>Показывать индикатор на странице</span>
       <input id="setting-overlay-enabled" type="checkbox" />
     </label>
@@ -115,6 +119,7 @@
       </svg>
       <input id="url-filter" type="text" placeholder="Фильтр по URL, host, path..." />
     </div>
+    <button id="api-only-toggle" class="btn btn--ghost btn--small filters__api-toggle" type="button" title="Показывать только запросы, где в URL есть &quot;api&quot;">API</button>
   </div>
 
   <main class="workspace" id="workspace">
@@ -176,7 +181,7 @@
   <footer class="app-footer">
     <span class="app-footer__brand">Network Monitor</span>
     <span class="app-footer__dot">·</span>
-    <span>v1.1.3</span>
+    <span>v1.1.4</span>
     <span class="app-footer__dot">·</span>
     <span>Telegram: @sequencedev</span>
   </footer>

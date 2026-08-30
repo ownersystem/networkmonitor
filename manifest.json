@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Network Monitor",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "Локальный мониторинг сетевых запросов текущей вкладки для анализа веб-приложений и API. Все данные остаются на устройстве пользователя.",
   "author": "Telegram @sequencedev",
   "icons": {
